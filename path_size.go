@@ -1,1 +1,1 @@
-package goproject242
+package pathsize
