@@ -1,0 +1,26 @@
+name: main
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  run:
+    name: run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+      
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.1
+      
+      - name: Run tests
+        run: make test
+
+      - name: Run build
+        run: make build
