@@ -20,12 +20,19 @@ func main() {
 				Aliases: []string{"H"},
 				DefaultText: "false",
             },
+			&cli.BoolFlag{
+                Name:  "all",
+                Usage: "include hidden files and directories",
+				Aliases: []string{"a"},
+				DefaultText: "false",
+            },
         },
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			path := cmd.Args().Get(0)
 			humanReadable := cmd.Bool("human")
+			hiddenFiles := cmd.Bool("all")
 
-			res, err := pathsize.GetPathSize(path, humanReadable)
+			res, err := pathsize.GetPathSize(path, humanReadable, hiddenFiles)
 			
 			if err != nil {
 				return err

@@ -3,10 +3,11 @@ package pathsize
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
-func GetPathSize(path string, humanReadable bool) (string, error) {
-	size, err := GetSize(path)
+func GetPathSize(path string, humanReadable bool, hiddenFiles bool) (string, error) {
+	size, err := GetSize(path, hiddenFiles)
 
 	if err != nil {
 		return "", fmt.Errorf("failed get size - %w", err)
@@ -17,7 +18,7 @@ func GetPathSize(path string, humanReadable bool) (string, error) {
 	return fmt.Sprintf("%s\t%s", formatted, path), nil
 }
 
-func GetSize(path string) (int64, error) {
+func GetSize(path string, hiddenFiles bool) (int64, error) {
 	info, err := os.Lstat(path)
 
 	if err != nil {
@@ -26,7 +27,10 @@ func GetSize(path string) (int64, error) {
 
 	// file
 	if !info.IsDir() {
-		return info.Size(), nil
+		if !strings.HasPrefix(info.Name(), ".") || hiddenFiles {
+			return info.Size(), nil
+		}
+		return 0, nil
 	}
 
 	// directory
@@ -44,7 +48,7 @@ func GetSize(path string) (int64, error) {
 			return 0, fmt.Errorf("failed to get info for %s: %w", item.Name(), err)
 		}
 
-		if !infoItem.IsDir() {
+		if !infoItem.IsDir() && (!strings.HasPrefix(infoItem.Name(), ".") || hiddenFiles) {
 			totalSize += infoItem.Size()
 		}
 	}

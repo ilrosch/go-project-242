@@ -1,0 +1,16 @@
+Этот файл создан для демонстрации различий в размерах и содержимом.
+Он значительно больше, чем small.txt, и содержит несколько абзацев
+произвольного текста. Цель — показать, как могут отличаться файлы
+по объёму даже в рамках одного формата.
+
+В реальных приложениях такие файлы могут содержать логи, отчёты,
+документацию или другие данные, требующие хранения в текстовом виде.
+Размер этого файла превышает один килобайт, чтобы подчеркнуть контраст
+с другими примерами. Дополнительный текст добавлен искусственно для
+увеличения объёма: Lorem ipsum dolor sit amet, consectetur adipiscing
+elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+Конец файла.
