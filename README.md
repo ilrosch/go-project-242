@@ -12,18 +12,18 @@ Features:
 Help for use:
 
 ```
-    ./bin/hexlet-path-size -h
-    NAME:
-        hexlet-path-size - print size of a file or directory; supports -r (recursive), -H (human-readable), -a (include hidden)
+./bin/hexlet-path-size -h
+NAME:
+    hexlet-path-size - print size of a file or directory; supports -r (recursive), -H (human-readable), -a (include hidden)
 
-    USAGE:
-        hexlet-path-size [global options] path
+USAGE:
+    hexlet-path-size [global options] path
 
-    GLOBAL OPTIONS:
-        --recursive, -r  recursive size of directories (default: false)
-        --human, -H      human-readable sizes (auto-select unit) (default: false)
-        --all, -a        include hidden files and directories (default: false)
-        --help, -h       show help
+GLOBAL OPTIONS:
+    --recursive, -r  recursive size of directories (default: false)
+    --human, -H      human-readable sizes (auto-select unit) (default: false)
+    --all, -a        include hidden files and directories (default: false)
+    --help, -h       show help
 ```
 ---
 
@@ -32,20 +32,20 @@ Help for use:
 With the --human (or -H) flag, a human-readable size is output:
 
 ```
-    ./bin/hexlet-path-size output.dat --human
-    24.0MB  output.dat
+./bin/hexlet-path-size output.dat --human
+24.0MB  output.dat
 ```
 
 With the --all (or -a) option, all files are included, including hidden ones:
 ```
-    ./bin/hexlet-path-size project/ -H -a
-    27.0MB  project/
+./bin/hexlet-path-size project/ -H -a
+27.0MB  project/
 ```
 
 The --recursive (or -r) flag includes all nested files and directories:
 ```
-    ./bin/hexlet-path-size project/ -H -a -r
-    31.0MB  project/
+./bin/hexlet-path-size project/ -H -a -r
+31.0MB  project/
 ```
 
 Demo:
