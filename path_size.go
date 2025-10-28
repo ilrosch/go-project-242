@@ -3,53 +3,65 @@ package pathsize
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
-func GetPathSize(path string, humanReadable bool, hiddenFiles bool) (string, error) {
-	size, err := GetSize(path, hiddenFiles)
+func GetPathSize(path string, recursive, human, all bool) (string, error) {
+	size, err := GetSize(path, recursive, all)
 
 	if err != nil {
 		return "", fmt.Errorf("failed get size - %w", err)
 	}
 
-	formatted := FormatSize(size, humanReadable)
+	formatted := FormatSize(size, human)
 
 	return fmt.Sprintf("%s\t%s", formatted, path), nil
 }
 
-func GetSize(path string, hiddenFiles bool) (int64, error) {
-	info, err := os.Lstat(path)
-
-	if err != nil {
-		return 0, err
-	}
-
-	// file
-	if !info.IsDir() {
-		if !strings.HasPrefix(info.Name(), ".") || hiddenFiles {
-			return info.Size(), nil
-		}
-		return 0, nil
-	}
-
-	// directory
-	children, err := os.ReadDir(path)
-
-	if err != nil {
-		return 0, err
-	}
-
+func GetSize(path string, recursive, all bool) (int64, error) {
 	var totalSize int64
-	for _, item := range children {
-		infoItem, err := item.Info()
+	queue := []string{path}
 
+	for len(queue) != 0 {
+		curPath := queue[0]
+		queue = queue[1:]
+
+		info, err := os.Lstat(curPath)
 		if err != nil {
-			return 0, fmt.Errorf("failed to get info for %s: %w", item.Name(), err)
+			return 0, err
 		}
 
-		if !infoItem.IsDir() && (!strings.HasPrefix(infoItem.Name(), ".") || hiddenFiles) {
-			totalSize += infoItem.Size()
+		// file
+		if !info.IsDir() {
+			if !strings.HasPrefix(info.Name(), ".") || all {
+				totalSize += info.Size()
+			}
+			continue
+		}
+
+		// directory
+		children, err := os.ReadDir(curPath)
+		if err != nil {
+			return 0, err
+		}
+
+		for _, item := range children {
+			newPath := filepath.Join(curPath, item.Name())
+			
+			if item.IsDir() {
+				if recursive {
+					queue = append(queue, newPath)
+				}
+			} else {
+				if !strings.HasPrefix(item.Name(), ".") || all {
+					fileInfo, err := item.Info()
+					if err != nil {
+						return 0, err
+					}
+					totalSize += fileInfo.Size()
+				}
+			}
 		}
 	}
 
