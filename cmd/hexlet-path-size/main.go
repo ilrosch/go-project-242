@@ -1,7 +1,7 @@
 package main
 
 import (
-	pathsize "code"
+	"code"
 	"context"
 	"fmt"
 	"os"
@@ -39,7 +39,7 @@ func main() {
 			humanReadable := cmd.Bool("human")
 			hiddenFiles := cmd.Bool("all")
 
-			res, err := pathsize.GetPathSize(path, recursive, humanReadable, hiddenFiles)
+			res, err := code.GetPathSize(path, recursive, humanReadable, hiddenFiles)
 			
 			if err != nil {
 				return err

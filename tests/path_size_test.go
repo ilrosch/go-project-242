@@ -1,7 +1,7 @@
 package test
 
 import (
-	pathsize "code"
+	"code"
 
 	"testing"
 
@@ -26,7 +26,7 @@ func TestGetSize(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		res, _ := pathsize.GetSize(test.path, test.recursive, test.all)
+		res, _ := code.GetSize(test.path, test.recursive, test.all)
 		assert.Equal(t, test.expected, res, test.name)
 	}
 }
@@ -47,7 +47,7 @@ func TestFormatSize(t *testing.T) {
 	}
 
 	for _, test := range cases {
-		res := pathsize.FormatSize(test.size, test.human)
+		res := code.FormatSize(test.size, test.human)
 		assert.Equal(t, test.expected, res, test.name)
 	}
 }
